@@ -1,8 +1,8 @@
 Meteor.startup(function () {
 	
-	var qscripter = Meteor.users.findOne({"emails.0.address": "qscripter@gmail.com"});
-	if (qscripter) {
-		Roles.addUsersToRoles(qscripter._id, ['admin']);
+	var admin = Meteor.users.findOne({"emails.0.address": "arking_mark@yahoo.com"});
+	if (admin) {
+		Roles.addUsersToRoles(admin._id, ['admin']);
 	}
 
 	if (Leagues.find().count() === 0) {
