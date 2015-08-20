@@ -23,6 +23,7 @@
 				<thead>
 					<tr>
 						<th>Year</th>
+						<th>Cap</th>
 						<th>Bonus</th>
 						<th>Salary</th>
 						<th>Total</th>
@@ -33,6 +34,7 @@
 					{{#each contractTotals}}
 					<tr>
 						<td>Current + {{ index }}</td>
+						<td>${{ cap }}</td>
 						<td>${{ bonus }}</td>
 						<td>${{ salary }}</td>
 						<td>${{ total }}</td>

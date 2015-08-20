@@ -20,6 +20,7 @@
 							<th>Name</th>
 							<th>Owner</th>
 							{{#if isInRole 'admin'}}
+								<th>Cap</th>
 								<th></th>
 							{{/if }}
 						</tr>
@@ -45,7 +46,12 @@
 									{{/if }}
 								</td>
 								{{#if isInRole 'admin' }}
+									<td class="cap">
+										<input type="text" class="form-control capInput" value="{{ cap }}">
+									</td>
 									<td class="deleteTeam"><span class="glyphicon glyphicon-trash"></span></td>
+								{{ else }}
+									 <td>${{ cap }}</td>
 								{{/if }}
 							</tr>
 						{{/each }}

@@ -6,7 +6,7 @@ function findMaxValidBid (team) {
 		return memo + salaryYear.salary + salaryYear.bonus;
 	}, 0);
 	// minimum players needed
-	return 100 - salary - (17 - team.roster.length) * 2;
+	return team.cap - salary - (17 - team.roster.length) * 2;
 }
 
 function findMaxEffectiveBid(maxPlayers, bids) {
@@ -332,6 +332,11 @@ Meteor.methods({
 			} else if (email === "") {
 				Teams.update(teamId, {$set: {owner: ""}});
 			}
+		}
+	},
+	setTeamCap: function (teamId, cap) {
+		if (Roles.userIsInRole(this.userId, ['admin'])) {
+			Teams.update(teamId, {$set: {cap: cap}});
 		}
 	},
 	resetPlayers: function() {

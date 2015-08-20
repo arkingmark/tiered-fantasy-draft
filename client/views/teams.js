@@ -29,6 +29,7 @@ Template.teams.events({
 		var teamName = $('#teamName').val();
 		data = {
 			name: teamName,
+			cap: 100,
 			roster: []
 		};
 		Teams.insert(data);
@@ -46,11 +47,19 @@ Template.teams.events({
 			var teamName = $('#teamName').val();
 			data = {
 				name: teamName,
+				cap: 100,
 				roster: []
 			};
 			Teams.insert(data);
 			$('#teamName').val("");
 			event.preventDefault();
 		}
-	}
+	},
+	'keydown .capInput': function (event) {
+		if (event.keyCode == 13) {
+debugger;
+			var cap= $(event.target).val();
+			Meteor.call('setTeamCap', this._id,cap);
+		}
+	},
 });
