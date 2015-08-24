@@ -1,5 +1,4 @@
 Meteor.startup(function () {
-	
 	var admin = Meteor.users.findOne({"emails.0.address": "arking_mark@yahoo.com"});
 	if (admin) {
 		Roles.addUsersToRoles(admin._id, ['admin']);

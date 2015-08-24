@@ -1,4 +1,4 @@
-nfl_players = [
+nfl_players_2014 = [
   {
     "rank":1,
     "name":"LeSean McCoy",
