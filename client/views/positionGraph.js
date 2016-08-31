@@ -38,7 +38,7 @@ var positions = [
 
 function buildChartData (team, league) {
 	if (team && league) {
-		salaryTotal = 100;
+		salaryTotal = 100 - team.deadMoney[0];
 		data = []
 		for (var j=0; j < positions.length; j++) {
 			var positionContracts = _.filter(team.roster, function (item) {
@@ -118,5 +118,5 @@ Template.positionGraph.rendered = function () {
 			drawChart(team, league);
 		}
 	});
-	
+
 }

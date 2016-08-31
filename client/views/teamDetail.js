@@ -8,13 +8,11 @@ function calculateMaxBid() {
 			return memo + salaryYear.salary + salaryYear.bonus;
 		}, 0);
 		// minimum players needed
-		return 100 - salary - (17 - myTeam.roster.length) * 2;
+		return 100 - team.deadMoney[0] - salary - (17 - myTeam.roster.length) * 2;
 	}
 }
 
-function validateContractAllocation(playerID, currentYear, salaryAllocation, bid) {
-debugger;
-	var getSalaryYear = currentYear - 1;
+function validateContractAllocation(salaryAllocation, bid) {
 	var contractYears = salaryAllocation.length;
 	var totalValue = bid * contractYears;
 	var calculatedBonusTotal = _.reduce(salaryAllocation, function(memo, salaryYear) {
@@ -35,15 +33,7 @@ debugger;
 		Session.set("salaryError", "Your salary numbers don't add up.");
 		return false;
 	}
-	var myTeam = Teams.findOne(Session.get("selectedTeam"));
-	var myPlayer = _.where(myTeam.roster,{player_id: playerID});
-	var originalSalaryAllocation = myPlayer[0].salaryAllocation[getSalaryYear].salary;
-	var originalBonusAllocation = myPlayer[0].salaryAllocation[getSalaryYear].bonus;
-	var plSalaryAllocation = salaryAllocation[getSalaryYear].salary;
-	var plBonusAllocation = salaryAllocation[getSalaryYear].bonus;
-	var maxBid = calculateMaxBid();
-	var plBid = bid;
-	if ((salaryAllocation[getSalaryYear].salary + salaryAllocation[getSalaryYear].bonus) > (calculateMaxBid() + originalSalaryAllocation + originalBonusAllocation)) {
+	if ((salaryAllocation[0].salary + salaryAllocation[0].bonus) > (calculateMaxBid() - bid)) {
 		Session.set("salaryError", "This contract would violate your salary cap!");
 		return false;
 	}
@@ -144,7 +134,7 @@ Template.teamDetail.getPositionContracts = function (position) {
 		return contract;
 	});
 	var contracts = _.filter(contracts, function (contract) {
-		return position == contract.position;	
+		return position == contract.position;
 	});
 	return _.sortBy(contracts, function (contract) { return contract.rank });
 }
@@ -207,11 +197,11 @@ Template.teamDetail.contractTotals = function () {
 			}
 			contractTotals.push({
 				index: i,
-				cap: team.cap,
+				deadMoney: team.deadMoney[i],
 				bonus: bonusTotal,
 				salary: salaryTotal,
 				total: bonusTotal + salaryTotal,
-				remaining: team.cap - bonusTotal - salaryTotal
+				remaining: 100 - team.deadMoney[i] - bonusTotal - salaryTotal
 			})
 		}
 		return contractTotals;
@@ -284,16 +274,13 @@ Template.teamDetail.events({
 		Meteor.call("updatePlayerContract", Session.get("selectedTeam"), this.player_id, contractYears);
 	},
 	'click .save-contract': function () {
-debugger;
-		var playerID = this.player_id;
-		var currentYear = this.currentYear;
 		var salaryAllocation = []
 		for (var i=1; i<=this.contractYears; i++) {
 			var bonus = parseInt($('#' + this.player_id + '-year-' + i + '-bonus').val(), 10);
 			var salary = parseInt($('#' + this.player_id + '-year-' + i + '-salary').val(), 10);
 			salaryAllocation.push({year: i, bonus: bonus, salary: salary});
 		}
-		if (validateContractAllocation(playerID, currentYear, salaryAllocation, this.bid)) {
+		if (validateContractAllocation(salaryAllocation, this.bid)) {
 			Meteor.call("updateSalaryAllocation", Session.get("selectedTeam"), this.player_id, salaryAllocation);
 			Session.set("editContract", null);
 		}

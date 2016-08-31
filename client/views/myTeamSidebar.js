@@ -49,7 +49,7 @@ Template.myTeamSidebar.maxBid = function () {
 			return memo + salaryYear.salary + salaryYear.bonus;
 		}, 0);
 		// minimum players needed
-		return myTeam.cap - salary - (17 - myTeam.roster.length) * 2;
+		return 100 - team.deadMoney[0] - salary - (17 - myTeam.roster.length) * 2;
 	}
 	return null;
 };

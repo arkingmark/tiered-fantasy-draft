@@ -23,7 +23,7 @@
 				<thead>
 					<tr>
 						<th>Year</th>
-						<th>Cap</th>
+						<th>Dead Money</th>
 						<th>Bonus</th>
 						<th>Salary</th>
 						<th>Total</th>
@@ -34,7 +34,7 @@
 					{{#each contractTotals}}
 					<tr>
 						<td>Current + {{ index }}</td>
-						<td>${{ cap }}</td>
+						<td>${{ deadMoney}}</td>
 						<td>${{ bonus }}</td>
 						<td>${{ salary }}</td>
 						<td>${{ total }}</td>
@@ -195,4 +195,49 @@
 			</div>
 		</div>
 	</div>
+	{{#if isInRole 'admin' }}
+	<div class="row">
+		<div class="col-md-12">
+			<h3>Current Season:  Transaction Impacts</h3>
+			<div class="table-responsive">
+				<table class="table text-center table-hover table-striped">
+					<thead>
+						<tr>
+							<th><div class="text-Center">#</div></th>
+							<th><div class="text-center">Player Added</div></th>
+							<th><div class="text-center">Bid Value</div></th>
+							<th><div class="text-center">Quarter Added</div></th>
+							<th><div class="text-Center">Player Dropped</div></th>
+							<th><div class="text-Center">Salary CY</div></th>
+							<th><div class="text-Center">Bonus CY</div></th>
+							<th><div class="text-center">Bonus CY+1</div></th>
+							<th><div class="text-center">Bonus CY+2</div></th>
+							<th><div class="text-center">Bonus CY+3</div></th>
+							<th></th>
+							{{#if isInRole 'admin' }}
+							<th></th>
+							{{/if }}
+						</tr>
+					</thead>
+					<tbody>
+						{{#each team.transactions }}
+							<tr>
+								<td>{{ number }}</td>
+								<td>{{ added }}</td>
+								<td>{{ bid }}</td>
+								<td>{{ quarter }}</td>
+								<td>{{ dropped }}</td>
+								<td>{{ salaryCY }}</td>
+								<td>{{ bonusCY }}</td>
+								<td>{{ bonusCY1 }}</td>
+								<td>{{ bonusCY2 }}</td>
+								<td>{{ bonusCY3 }}</td>
+							</tr>
+						{{/each }}
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+	{{/if}}
 </template>

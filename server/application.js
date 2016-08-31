@@ -1,7 +1,13 @@
 Meteor.startup(function () {
-	var admin = Meteor.users.findOne({"emails.0.address": "arking_mark@yahoo.com"});
-	if (admin) {
-		Roles.addUsersToRoles(admin._id, ['admin']);
+
+	var qscripter = Meteor.users.findOne({"emails.0.address": "qscripter@gmail.com"});
+	if (qscripter) {
+		Roles.addUsersToRoles(qscripter._id, ['admin']);
+	}
+
+	var marking = Meteor.users.findOne({"emails.0.address": "arking_mark@yahoo.com"});
+	if (marking) {
+		Roles.addUsersToRoles(marking._id, ['admin']);
 	}
 
 	if (Leagues.find().count() === 0) {
@@ -27,7 +33,7 @@ Meteor.startup(function () {
 	_.each(nfl_players, function(player) {
 		var mongoRecord = Players.findOne({name: player.name});
 		if (mongoRecord) {
-			Players.update(mongoRecord._id, {$set: {team: player.team, bye: player.bye}});
+			Players.update(mongoRecord._id, {$set: {team: player.team, bye: player.bye, year: 2016}});
 		} else {
 			Players.insert(player);
 		}

@@ -27,10 +27,15 @@ Template.teams.owner = function (teamId) {
 Template.teams.events({
 	'click #createTeam': function (event) {
 		var teamName = $('#teamName').val();
+		var teamDeadMoneyCY = $('#teamDeadMoneyCY').val();
+		var teamDeadMoneyCY1 = $('#teamDeadMoneyCY1').val();
+		var teamDeadMoneyCY2 = $('#teamDeadMoneyCY2').val();
+		var teamDeadMoneyCY3 = $('#teamDeadMoneyCY3').val();
 		data = {
 			name: teamName,
-			cap: 100,
-			roster: []
+			deadMoney: [teamDeadMoneyCY, teamDeadMoneyCY1, teamDeadMoneyCY2, teamDeadMoneyCY3],
+			roster: [],
+			transactions: []
 		};
 		Teams.insert(data);
 		$('#teamName').val("");
@@ -47,19 +52,11 @@ Template.teams.events({
 			var teamName = $('#teamName').val();
 			data = {
 				name: teamName,
-				cap: 100,
 				roster: []
 			};
 			Teams.insert(data);
 			$('#teamName').val("");
 			event.preventDefault();
 		}
-	},
-	'keydown .capInput': function (event) {
-		if (event.keyCode == 13) {
-debugger;
-			var cap= $(event.target).val();
-			Meteor.call('setTeamCap', this._id,cap);
-		}
-	},
+	}
 });
