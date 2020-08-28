@@ -1,4 +1,4 @@
-nfl_players = [
+2016_nfl_players = [
  {
    "rank": 1,
    "name": "Antonio Brown",
