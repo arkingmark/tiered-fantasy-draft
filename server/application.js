@@ -30,10 +30,10 @@ Meteor.startup(function () {
 	}
 
 	// TODO: create 2015 players list, assign to nfl_players var
-	_.each(nfl_players, function(player) {
+	_.each(2020_nfl_players, function(player) {
 		var mongoRecord = Players.findOne({name: player.name});
 		if (mongoRecord) {
-			Players.update(mongoRecord._id, {$set: {team: player.team, bye: player.bye, year: 2016}});
+			Players.update(mongoRecord._id, {$set: {team: player.team, bye: player.bye, year: 2020}});
 		} else {
 			Players.insert(player);
 		}
