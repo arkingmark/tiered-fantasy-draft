@@ -1,4 +1,4 @@
-[
+2020_nfl_players = [
   {
     "tier": 1,
     "rank": 1,
