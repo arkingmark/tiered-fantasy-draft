@@ -37,6 +37,22 @@ Meteor.startup(function () {
 		} else {
 			Players.insert(player);
 		}
+		var mongoRecord2 = Tiers.findOne({name: player.position + player.tier});
+		if (mongoRecord2) {
+			if (Tiers.find({players: mongoRecord._id}).count() === 0) {
+				Tiers.update(mongoRecord2._id, {$addToSet: {players: mongoRecord._id}});
+				console.log("Added " + player.name + " to tier: " + player.position + player.tier);
+			} else {
+				console.log("player already in this or another tier");
+			}
+		} else {
+			tierName = player.position + player.tier
+			console.log("New tier = " + tierName);
+			tier = {name: tierName, players: [], bids: [], submissions: []};
+			Tiers.insert(tier);
+			Tiers.update(mongoRecord2._id, {$addToSet: {players: mongoRecord._id}});
+			console.log("Added " + player.name + " to tier: " + player.position + player.tier);
+		}
 	});
 
 });
