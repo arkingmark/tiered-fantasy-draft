@@ -36,6 +36,7 @@ Meteor.startup(function () {
 			Players.update(mongoRecord._id, {$set: {team: player.team, bye: player.bye, year: 2020}});
 		} else {
 			Players.insert(player);
+			mongoRecord = Players.findOne({name: player.name});
 		}
 		var mongoRecord2 = Tiers.findOne({name: player.position + player.tier});
 		if (mongoRecord2) {
@@ -43,13 +44,14 @@ Meteor.startup(function () {
 				Tiers.update(mongoRecord2._id, {$addToSet: {players: mongoRecord._id}});
 				console.log("Added " + player.name + " to tier: " + player.position + player.tier);
 			} else {
-				console.log("player already in this or another tier");
+				console.log("Player " + player.name + " already in this or another tier");
 			}
 		} else {
 			tierName = player.position + player.tier
 			console.log("New tier = " + tierName);
 			tier = {name: tierName, players: [], bids: [], submissions: []};
 			Tiers.insert(tier);
+			mongoRecord2 = Tiers.findOne({name: tierName});
 			Tiers.update(mongoRecord2._id, {$addToSet: {players: mongoRecord._id}});
 			console.log("Added " + player.name + " to tier: " + player.position + player.tier);
 		}
